@@ -34,7 +34,7 @@ source $AMBERHOME/amber.sh
 
 
 # Set runtime commands (this is said to be easier on the filesystem)
-export NODELOC=/expanse/lustre/scratch/ssonti/temp_project/amber_learn/chignolin_tutorial/westpa_tutorials/tutorial7.3-chignolin/ParGaMD
+export NODELOC=/expanse/lustre/scratch/ssonti/temp_project/amber_learn/chignolin_tutorial/westpa_tutorials/tutorial7.3-chignolin/ParMetaD/ParMetaD/AMBER_files
 export USE_LOCAL_SCRATCH=1
 
 export WM_ZMQ_MASTER_HEARTBEAT=100

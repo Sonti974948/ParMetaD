@@ -1,16 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name="chignolin_WE_run"
 #SBATCH --output="job.out"
-#SBATCH --partition=gpu
-#SBATCH --nodes=4
-#SBATCH --gpus=16
+#SBATCH --partition=gpu-debug
+#SBATCH --nodes=1
+#SBATCH --gpus=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=50G
 #SBATCH --account=ucd187
 #SBATCH --no-requeue
-#SBATCH --mail-user=ssiddharth@ucdavis.edu
-#SBATCH --mail-type=ALL
-#SBATCH -t 05:00:00
+#SBATCH -t 00:30:00
 
 
 
