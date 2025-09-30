@@ -1,0 +1,105 @@
+# Metadynamics Simulation Configuration File
+# Similar to AMBER .in files - contains all simulation parameters
+
+# =============================================================================
+# SIMULATION MODE
+# =============================================================================
+mode: "init"  # Options: "init" (fresh start) or "restart" (continue from previous)
+
+# =============================================================================
+# INPUT FILES
+# =============================================================================
+input_files:
+  prmtop: "chignolin.prmtop"        # AMBER topology file (required)
+  plumed: "plumed.dat"         # PLUMED input file (required)
+  
+  # For --init mode (choose one):
+  inpcrd: "chignolin_box.inpcrd"        # AMBER coordinate file
+  # pdb: "chignolin.pdb"            # PDB file (alternative to inpcrd)
+  
+  # For --restart mode (choose one):
+  #checkpoint: "final_checkpoint.chk"  # OpenMM checkpoint file
+  #nc_restart: "final_restart.nc"      # NetCDF restart file
+
+# =============================================================================
+# MOLECULAR DYNAMICS PARAMETERS
+# =============================================================================
+md_parameters:
+  # Simulation control
+  nsteps: 50000                   # Number of MD steps
+  output_freq: 500                 # Reporting frequency (steps)
+  
+  # Thermodynamics
+  temperature: 300.0                # Temperature (Kelvin)
+  timestep: 0.002                   # Integration timestep (picoseconds)
+  
+  # System setup
+  platform: "CUDA"                  # Platform: CUDA, CPU, OpenCL
+  implicit_solvent: "HCT"           # Implicit solvent model: HCT, OBC1, OBC2, GBn, GBn2
+  nonbonded_method: "NoCutoff"      # Nonbonded method: NoCutoff, CutoffNonPeriodic, PME
+  constraints: "HBonds"             # Constraints: None, HBonds, AllBonds, HAngles
+  hydrogen_mass: 1.5                # Hydrogen mass repartitioning (amu)
+
+# =============================================================================
+# OUTPUT FILES
+# =============================================================================
+output_files:
+  # Trajectory files
+  dcd_trajectory: "trajectory_implicit.dcd"    # DCD trajectory file
+  pdb_snapshots: "final.pdb"      # PDB snapshots file
+  final_pdb_only: true                        # Save only final PDB frame
+  
+  # Restart files
+  output_checkpoint: "final.chk"    # OpenMM checkpoint (full state)
+  #nc_restart: "final_restart2.nc"               # NetCDF restart file
+  
+  # Log files
+  log_file: "metadynamics.log"        # Simulation log file
+
+
+
+# =============================================================================
+# ADVANCED OPTIONS
+# =============================================================================
+advanced:
+  # Energy minimization
+  minimize_energy: false             # Minimize energy before MD
+  #min_iterations: 1000              # Maximum minimization iterations
+  
+  # Performance
+  #gpu_device: 0                     # GPU device ID (for CUDA)
+  #precision: "mixed"                # Precision: single, mixed, double
+  
+  # Analysis
+  #save_forces: false                # Save forces to trajectory
+  #save_velocities: false            # Save velocities to trajectory
+  
+  # Checkpointing
+  #checkpoint_freq: 10000            # Checkpoint frequency (steps)
+  #backup_checkpoints: true          # Keep backup checkpoints
+
+# =============================================================================
+# EXAMPLE CONFIGURATIONS
+# =============================================================================
+# Uncomment and modify these examples for different scenarios:
+
+# Example 1: Fresh start with inpcrd
+# mode: "init"
+# input_files:
+#   prmtop: "system.prmtop"
+#   inpcrd: "system.inpcrd"
+#   plumed: "plumed.dat"
+
+# Example 2: Restart from checkpoint
+# mode: "restart"
+# input_files:
+#   prmtop: "system.prmtop"
+#   checkpoint: "prev_checkpoint.chk"
+#   plumed: "plumed.dat"
+
+# Example 3: Restart from NetCDF
+# mode: "restart"
+# input_files:
+#   prmtop: "system.prmtop"
+#   nc_restart: "prev_restart.nc"
+#   plumed: "plumed.dat"

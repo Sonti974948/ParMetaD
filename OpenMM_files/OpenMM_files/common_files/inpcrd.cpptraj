@@ -1,0 +1,19 @@
+# Load the topology (you need a prmtop from tleap)
+parm chignolin.prmtop
+
+# Load your PDB coordinates
+trajin chignolin_works.pdb
+
+# Center the molecule in the box
+center :1-10 origin
+
+# Translate the molecule to fit in a cubic box
+autoimage
+
+# Set a cubic box of 40 Å per side
+#setBox 20.0 20.0 20.0
+box x 20 y 20 z 20 alpha 90 beta 90 gamma 90
+
+# Write the coordinates to AMBER inpcrd format
+trajout chignolin_box.inpcrd restart
+
