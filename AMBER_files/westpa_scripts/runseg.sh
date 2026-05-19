@@ -14,10 +14,10 @@ ln -sv $WEST_SIM_ROOT/common_files/gamd-restart.dat .
 
 if [ "$WEST_CURRENT_SEG_INITPOINT_TYPE" = "SEG_INITPOINT_CONTINUES" ]; then
   sed "s/RAND/$WEST_RAND16/g" $WEST_SIM_ROOT/common_files/md.in > md.in
-  cp $WEST_SIM_ROOT/common_files/plumed.dat plumed.dat
+  cp $WEST_SIM_ROOT/common_files/plumed_init.dat plumed.dat
   cp $WEST_SIM_ROOT/common_files/chignolin_works.pdb chignolin.pdb
   ln -sv $WEST_PARENT_DATA_REF/seg.rst ./parent.rst
-  cp $WEST_PARENT_DATA_REF/HILLS HILLS
+  #cp $WEST_PARENT_DATA_REF/HILLS HILLS
 elif [ "$WEST_CURRENT_SEG_INITPOINT_TYPE" = "SEG_INITPOINT_NEWTRAJ" ]; then
   sed "s/RAND/$WEST_RAND16/g" $WEST_SIM_ROOT/common_files/md.in > md.in
   cp $WEST_SIM_ROOT/common_files/plumed_init.dat plumed.dat
@@ -35,6 +35,9 @@ echo "RUNSEG.SH: CUDA_VISIBLE_DEVICES = " $CUDA_VISIBLE_DEVICES
 while ! grep -q "Final Performance Info" seg.log; do
 	$PMEMD -O -i md.in   -p chignolin.prmtop  -c parent.rst \
           -r seg.rst -x seg.nc  -o seg.log    -inf seg.nfo
+	min_value=$(awk 'NR==1 {min=$2} NR>1 && $2 < min {min=$2} END {print min}' HILLS)
+    max_value=$(awk '$2+0==$2 {if (NR==1 || $2 > max) max=$2} END {print max}' HILLS)
+    plumed sum_hills --hills HILLS --mintozero --min "$min_value" --max "$max_value" --bin 100
 done
 
 RMSD=rmsd.dat
