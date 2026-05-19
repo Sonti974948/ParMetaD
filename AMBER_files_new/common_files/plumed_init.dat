@@ -1,0 +1,18 @@
+#Restart the Simulation 
+#RESTART
+
+# this is required to have proper atom names:
+MOLINFO STRUCTURE=chignolin.pdb
+
+#Defining the units of the simulations
+#UNITS LENGTH=A ENERGY=eV TIME=fs
+
+#Defining Collective variable
+cv: RMSD REFERENCE=chignolin.pdb TYPE=OPTIMAL
+
+#Defining Radius of gyration as additional CV (non-biasing)
+rg: GYRATION TYPE=RADIUS ATOMS=5,12,33,53,59,74,88,95,109,133 
+#Metadynamics parameters
+metad: METAD ARG=cv SIGMA=0.04 HEIGHT=1 BIASFACTOR=10 TEMP=300 PACE=1000 GRID_MIN=-0.1 GRID_MAX=1.1 GRID_BIN=500 CALC_RCT FILE=HILLS
+
+PRINT ARG=cv,rg,metad.rbias STRIDE=100 FILE=COLVAR 
