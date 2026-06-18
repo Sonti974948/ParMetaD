@@ -2,6 +2,8 @@
 
 GPU-parallelizable metadynamics simulations powered by the [WESTPA](https://westpa.github.io/westpa/overview.html) weighted-ensemble framework. Supports [GPUMD](https://gpumd.org/), [AMBER](https://ambermd.org/), and [OpenMM](https://openmm.org/) as the underlying MD engine, with [PLUMED](https://www.plumed.org/) providing the metadynamics bias.
 
+This repo is not final, and is actively undergoing changes.
+
 ## Requirements
 
 - WESTPA 2.0 (a conda env named `westpa-2.0` is assumed by the scripts)
